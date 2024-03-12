@@ -1,0 +1,134 @@
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+} */
+
+*,
+::after,
+::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Rubik", sans-serif;
+  background-color: rgb(222, 218, 218);
+}
+
+$themes: (
+  light: (
+    textColor: #3b3b3b,
+    bg: rgb(255 255 255),
+    logo: rgb(160, 136, 254),
+    bgSoft: #ebebeb,
+    textColorsoft: #555,
+    border: rgb(160, 136, 254),
+    btnBg: rgb(0 0 0),
+    btnBgSoft: rgb(97, 97, 97),
+    btnColor: rgb(160, 136, 254),
+    btnBorder: #444,
+    textBtnColor: rgb(0, 0, 0),
+    trans-background: rgba(233, 233, 233, 0.9),
+  ),
+  dark: (
+    textColor: rgb(245, 245, 245),
+    bg: rgb(2 2 2),
+    logo: rgb(255 255 255),
+    bgSoft: #333,
+    textColorsoft: rgb(190, 185, 185),
+    border: #444,
+    btnBg: rgb(255 255 255),
+    btnColor: rgb(160, 136, 254),
+    btnBorder: #f3f3f3,
+    textBtnColor: rgb(0 0 0),
+    trans-background: rgba(58, 57, 57, 0.5),
+  ),
+);
+
+@mixin themify($themes) {
+  @each $theme, $map in $themes {
+    .theme-#{$theme} & {
+      $theme-map: () !global;
+      @each $key, $submap in $map {
+        $value: map-get(map-get($themes, $theme), "#{$key}");
+        $theme-map: map-merge(
+          $theme-map,
+          (
+            $key: $value,
+          )
+        ) !global;
+      }
+      @content;
+      $theme-map: null !global;
+    }
+  }
+}
+@function themed($key) {
+  @return map-get($theme-map, $key);
+}
+
+@mixin mobile {
+  @media (max-width: 767px) {
+    @content;
+  }
+}
+@mixin fold {
+  @media (min-width: 280px) and (max-width: 539px) {
+    @content;
+  }
+}
+
+@mixin surface-Pro {
+  @media (min-width: 912px) and (max-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin surface-duo {
+  @media (min-width: 540px) and (max-width: 767px) {
+    @content;
+  }
+}
+
+@mixin tab {
+  @media (min-width: 768px) and (max-width: 912px) {
+    @content;
+  }
+}
+@mixin web {
+  @media (min-width: 1024px) {
+    @content;
+  }
+}
+@mixin web-medium {
+  @media (min-width: 1024px) and (max-width: 1279px) {
+    @content;
+  }
+}
+@mixin web-large {
+  @media (min-width: 1921px) {
+    @content;
+  }
+}
+.main {
+  width: 100%;
+  @include web-large {
+    width: 100%;
+    padding: 0 10rem;
+    background-color: #ebebeb;
+  }
+}
